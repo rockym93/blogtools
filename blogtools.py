@@ -8,11 +8,12 @@ import markdown
 import io
 
 #postlist data reference:
-#postlist[timestamp] = (
+#postlist[timestamp] = [
 # 'title',
 # ['list','of','tags'],
 # '/path/to/slug',
-# [(timestamp, commenter), ... ]
+# [(timestamp, commenter), ... ],
+# ['subscriber@email.com', ...]
 
 if not os.path.exists("postlist"):
 	with file("postlist","w") as f:
@@ -206,4 +207,23 @@ def refresh(post):
 	f.write(buildpost(post, "templates/template.html"))
 	f.close()
 
+def notify(post):
+	'''notify subscribed users that a new comment has been posted'''
+	
+	from email.mime.text import MIMEText
+	from subprocess import Popen, PIPE
+	
+	message = MIMEText( 
+	'''
+A new comment has been posted on {title}.
+You can find the post at http://blog.rockym93.net/{link}.html
+	'''.format(title=postlist[post][0],link=postlist[post][2])
+	) 
+	message['From'] = "noreply@blog.rockym93.net"
+	message['Subject'] = "New comment on " + postlist[post][0]
+	
+	for address in postlist[post][4]:
+		message['To'] = address
+		p = Popen(["/usr/bin/sendmail", "-t", "-oi"], stdin=PIPE)
+		p.communicate(message.as_string())
 		
