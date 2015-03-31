@@ -7,6 +7,13 @@ import urllib2
 import markdown
 import io
 
+#postlist data reference:
+#postlist[timestamp] = (
+# 'title',
+# ['list','of','tags'],
+# '/path/to/slug',
+# [(timestamp, commenter), ... ]
+
 if not os.path.exists("postlist"):
 	with file("postlist","w") as f:
 		yaml.dump({},f)
