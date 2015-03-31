@@ -17,8 +17,12 @@ if form.getvalue("captcha") == "apple":
 	timestamp = int(time.time())
 	author = form.getvalue("username")
 	parent = int(form.getvalue("id"))
+	email = form.getvalue("email")	
 	
 	blogtools.postlist[parent][3].append((timestamp,author))
+	if email not in postlist[parent][4]:
+		postlist[parent][4].append(email)
+	
 	content = form.getvalue("comment")
 	content = markdown.markdown(content.decode("utf-8"),safe_mode='escape')
 	
@@ -29,6 +33,8 @@ if form.getvalue("captcha") == "apple":
 	blogtools.refresh(parent)
 	
 	blogtools.buildfront() #just in case
+	
+	blogtools.notify(parent)
 	
 	blogtools.save()
 	
