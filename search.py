@@ -15,7 +15,7 @@ keys.sort()
 
 query = cgi.FieldStorage()
 search = query.getvalue("for")
-type = query.getvalue("in")
+category = query.getvalue("in")
 print "Content-Type: text/html"
 print 
 templatefile = open("templates/search.html")
@@ -23,7 +23,7 @@ template = templatefile.read().split("#SEARCHRESULTS")
 templatefile.close()
 print template[0]
 
-if type == "tags":
+if category == "tags":
 	if search == "all":
 		print "showing all tags:<br>"
 		alltags = dict()
@@ -46,7 +46,7 @@ if type == "tags":
 			if search in postlist[i][1]:
 				print "<li><a href='"+ postlist[i][2] + ".html'>" + postlist[i][0] + "</a></li>"
 		print "</ul>"
-elif type == "commenters":
+elif category == "commenters":
 	postswithcomments = {}
 	commentlist = []
 	if search == "all":
@@ -74,7 +74,7 @@ elif type == "commenters":
 		for c in commentlist:
 			print "<li>" + str(time.ctime(c)) + " on <a href='" + postswithcomments[c][2] + ".html'>" + postswithcomments[c][0] + "</a></li>"
 		print "</ul>"
-elif type == "title":
+elif category == "title":
 	titlelist = []
 	for i in keys:
 		if search.lower() in postlist[i][0].lower():
