@@ -213,16 +213,23 @@ def notify(post):
 	from email.mime.text import MIMEText
 	from subprocess import Popen, PIPE
 	
-	message = MIMEText( 
-	'''
+	for address in postlist[post][4]:
+		message = MIMEText( '''
+Hello,
+
 A new comment has been posted on {title}.
 You can find the post at http://blog.rockym93.net/{link}.html
-	'''.format(title=postlist[post][0],link=postlist[post][2])
-	) 
-	message['From'] = "noreply@blog.rockym93.net"
-	message['Subject'] = "New comment on " + postlist[post][0]
-	
-	for address in postlist[post][4]:
+
+If you don't want updates any more, go to:
+http://blog.rockym93.net/unsubscribe.py?post={postid}&email={email}
+
+Thanks!'''.format(
+		title=postlist[post][0],
+		link=postlist[post][2],
+		postid=post,
+		email=address)) 
+		message['From'] = "noreply@blog.rockym93.net"
+		message['Subject'] = "New comment on " + postlist[post][0]
 		message['To'] = address
 		p = Popen(["/usr/bin/sendmail", "-t", "-oi"], stdin=PIPE)
 		p.communicate(message.as_string())
