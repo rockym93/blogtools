@@ -7,7 +7,7 @@ query = cgi.FieldStorage()
 email = str(query.getvalue('email'))
 post = int(query.getvalue('post'))
 
-	try:
+try:
 	blogtools.postlist[post][4].remove(email)
 	blogtools.save()
 except ValueError:
