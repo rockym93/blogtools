@@ -36,7 +36,7 @@ def newpost(timestamp, title, content, tags):
 	
 	#Step 2: Add the new post to the master list.
 	
-	postlist[timestamp] = [title,tags,filepath,[]]
+	postlist[timestamp] = [title,tags,filepath,[],[]]
 	keylist.append(timestamp)
 	
 	#Step 3: Put the post content in a text file.
