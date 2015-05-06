@@ -15,13 +15,19 @@ import io
 # [(timestamp, commenter), ... ],
 # ['subscriber@email.com', ...]
 
+if not os.path.exists("config"):
+	with file("config","w") as f:
+		yaml.dump({},f)
+
+with file("config") as f:
+	config = yaml.load(f)
+
 if not os.path.exists("postlist"):
 	with file("postlist","w") as f:
 		yaml.dump({},f)
 
 with file("postlist") as f:
 	postlist = yaml.load(f)
-
 
 keylist = postlist.keys()
 keylist.sort()
@@ -218,17 +224,18 @@ def notify(post):
 Hello,
 
 A new comment has been posted on {title}.
-You can find the post at http://blog.rockym93.net/{link}.html
+You can find the post at http://{domain}/{link}.html
 
 If you don't want updates any more, go to:
-http://blog.rockym93.net/unsubscribe.py?post={postid}&email={email}
+http://{domain}/unsubscribe.py?post={postid}&email={email}
 
 Thanks!'''.format(
 		title=postlist[post][0],
 		link=postlist[post][2],
 		postid=post,
-		email=address)) 
-		message['From'] = "noreply@blog.rockym93.net"
+		email=address,
+		domain=config['domain'])) 
+		message['From'] = "noreply@" + config['domain']
 		message['Subject'] = "New comment on " + postlist[post][0]
 		message['To'] = address
 		p = Popen(["/usr/bin/sendmail", "-t", "-oi"], stdin=PIPE)

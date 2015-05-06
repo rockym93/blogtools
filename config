@@ -1,0 +1,4 @@
+# blogtools sample configuration file.
+
+# This is your domain, no protocol specified.
+domain: example.com
