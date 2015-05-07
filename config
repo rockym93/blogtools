@@ -5,3 +5,6 @@ domain: example.com
 
 # This is the correct response to your CAPTCHA. Case sensitive.
 captcha: example
+
+# This is your timezone, in hours, + or - from UTC.
+timezone: +8

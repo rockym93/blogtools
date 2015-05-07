@@ -126,7 +126,7 @@ def buildpost(key,templatefile):
 		cf = io.open(postlist[key][2] + "." + str(cts), mode='rt', encoding='utf-8')
 		ctxt = cf.read()
 		cf.close()
-		comments += "<div class='comment'><b>" + cauth + " </b><br /><i> " + time.ctime(cts+28800) + " </i><br /><br />" + ctxt + "</div>\n"
+		comments += "<div class='comment'><b>" + cauth + " </b><br /><i> " + time.ctime(cts+(config['timezone'] * 3600)) + " </i><br /><br />" + ctxt + "</div>\n"
 	
 	#Open template file
 	with io.open(templatefile, mode='rt', encoding='utf-8') as tf:
@@ -134,9 +134,9 @@ def buildpost(key,templatefile):
 		
 	#Fill in template file
 	posthtml = template.format(
-	date = time.strftime("%A, %d %B %Y",time.gmtime(key + 28800)),
-	time = time.strftime("%I:%M%p",time.gmtime(key + 28800)),
-	atomtime = time.strftime("%Y-%m-%dT%H:%M:%S+08:00",time.gmtime(key + 28800)),
+	date = time.strftime("%A, %d %B %Y",time.gmtime(key + (config['timezone'] * 3600))),
+	time = time.strftime("%I:%M%p",time.gmtime(key + (config['timezone'] * 3600))),
+	atomtime = time.strftime("%Y-%m-%dT%H:%M:%S+08:00",time.gmtime(key + (config['timezone'] * 3600))),
 	tags = printabletags,
 	title = postlist[key][0],
 	text = printabletext,

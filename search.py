@@ -88,7 +88,7 @@ elif category == "title":
 else:
 	print "<ul>"
 	for i in keys:
-		print "<li>" + time.strftime("%d/%m/%Y",time.gmtime(i + 28800)) + " - <a href='" + postlist[i][2] + ".html'>" + postlist[i][0] + "</a></li>"
+		print "<li>" + time.strftime("%d/%m/%Y",time.gmtime(i)) + " - <a href='" + postlist[i][2] + ".html'>" + postlist[i][0] + "</a></li>"
 	print "</ul>"
 
 print template[1]
