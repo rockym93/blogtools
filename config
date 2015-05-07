@@ -8,3 +8,7 @@ captcha: example
 
 # This is your timezone, in hours, + or - from UTC.
 timezone: +8
+
+# These govern the length, in posts, of your front page and atom feed.
+frontlength: 5
+feedlength: 10

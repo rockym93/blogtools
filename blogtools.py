@@ -157,7 +157,7 @@ def buildpost(key,templatefile):
 		posthtml = posthtml.replace("/*prevhide*/","display:none")
 	return posthtml
 
-def buildfront(length=5):
+def buildfront(length=config['frontlength']):
 	'''rebuilds the front page'''
 	with io.open("templates/index.html", mode='rt', encoding='utf-8') as f:
 		front = f.read()
@@ -182,7 +182,7 @@ def buildfront(length=5):
 	indexfile.write(front)
 	indexfile.close()
 
-def buildfeed(length=10):
+def buildfeed(length=config['feedlength']):
 	'''rebuilds the atom feed'''
 	with io.open("templates/atom.xml", mode='rt', encoding='utf-8') as f:
 		feed = f.read()
