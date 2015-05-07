@@ -17,8 +17,8 @@ Now:
 1. Drop the whole lot into a new folder. It should work with a 
 subdirectory, though I've always used it in the root directory so 
 there may be some unexpected behaviour with some leftover absolute 
-links scattered around. I recommend doing an hg clone from the Google 
-Code repository at https://code.google.com/p/blogtoolsdotpy/
+links scattered around. I recommend doing an hg clone from the Mercurial 
+repository at http://rockym93.net/code/hgweb.cgi/blogtoolsdotpy/
 
 2. Setup your templates. Everything except the atom feed is pretty 
 much functional to begin with and reasonably self-explanatory. 
@@ -28,19 +28,11 @@ metadata, the rest of the HTML is fair game. the atom feed needs a
 couple of site-specific namespacey things put in there first. Those 
 are marked with square brackets.
 
-3. Configuration. Currently this is spread all over the place, for 
-which I apologise. I'm going to list where to find everything you 
-might want to change here, because it's slightly easier than 
-refactoring everything to fit in a config file. That is in the plans 
-for future versions though.
-
-Front page length: blogtools.py, under buildfront, change the default 
-'length' parameter.
-Atom feed length: blogtools.py, under buildfeed, change the default 
-'length' parameter.
-Correct captcha response: comment.py, change:
-if form.getvalue("captcha") == "apple"
-to your desired captcha. Don't forget to change the image as well.
+3. Configuration. There are a handful of parameters that need 
+to be set in a file in your root directory called 'config'. The examples, in
+most cases, *aren't* acceptable - they're things like 'example.com', and
+my personal timezone. They are mostly there to show you how to format
+the thing.
 
 === Posting and editing ===
 Posting, for the sake of convenience, is done through an html form 
@@ -71,6 +63,7 @@ file. Entries look like this:
 - 2014/08/templates-are-weird
 - - !!python/tuple [1407065852, Probably a spambot]
   - !!python/tuple [1407065921, A commenter]
+- [subscriber@example.com]
   
 The first item is a Unix timestamp in seconds. It's the post's 
 identifier, but also the actual timestamp as reported on the page. You 
@@ -80,7 +73,7 @@ The second item is the post title. Changing this affects the title as
 displayed on pages and in search results, but not as displayed in the 
 url.
 The third item is a comma-separated list of tags. Edit these all you 
-like. A reminder that they're case sensitive
+like. A reminder that they're case sensitive.
 The fourth item is the post's slug. You shouldn't really mess around 
 with this, as changing your URLs is very bad practice, but if you do, 
 make sure you also rename the post's associated .txt file to match and 
@@ -95,9 +88,28 @@ as a blob of formatted sanitised HTML in a file at
 2014/08/templates-are-weird.1407065852 would be your spambot's 
 comment.) This file can also be safely edited, for content or 
 censorship or whatever.
+The sixth item is a list of email addresses which are currently receiving
+a little email ping every time someone comments on the post. This, once
+again, can be edited safely.
 
 Don't edit the .html files and expect the changes to stay around! You 
 need to edit either the postlist or the associated .txt file! 
+
+===Upgrading===
+
+There have been two changes to the underlying data structures.
+
+The first is the switch from pickle to yaml as the format for data storage.
+You can upgrade by running yamlconvert.py in your root directory exactly once.
+Backups strongly recommended.
+
+The second is when comment notifications were added, necessitating an extra
+field in the postlist. You can upgrade by running subconvert.py in your root directory
+exactly once. Again, backups strongly recommended.
+
+The only likely future manual upgrade will be to add version numbers to the postlist
+file, making it possible for the software to upgrade the database itself in future. I 
+haven't had time or need to implement this, though.
 
 === API ===
 (If you can call it that.)
@@ -114,6 +126,7 @@ buildpost(id, template)
 buildfront(length)
 buildfeed(length)
 refresh(post)
+notify(post)
 
 Arguable 'buildpost' should be called 'formatpost', but whatever.
 
@@ -122,8 +135,9 @@ addressable by timestamp, and a save() function, which commits any
 changes you've made back to the list. Postlist items are a list, with 
 index 0 being the title as a string, 1 being list of tags as strings, 2 
 being slug as a string (add your own extension to get .txt or .html, 
-sorry) and 3 being a list containing comments as tuples, which are a 
-timestamp as an integer and an author as a string.
+sorry), 3 being a list containing comments as tuples, which are a 
+timestamp as an integer and an author as a string, and 4 being a list
+of subscribed commenters' email addresses, as strings.
 
 Modifying comment and posting behaviour is totally possible, but 
 should probably be done in comment.py and post.py rather than 
@@ -140,8 +154,7 @@ don't have to, if you build something cool with it, let me know!
 
 blogtools.py is written by Rockwell McGellin. If you have any 
 questions, comments, bugs, whatever, you can contact me at 
-rockwell.m@gmail.com or through the Google Code page at 
-https://code.google.com/p/blogtoolsdotpy.
+rockwell@mcgell.in, or @rockym93 most other places.
 
 If you want to check out my personal instance of blogtools, you can 
 find that at http://blog.rockym93.net/
