@@ -2,3 +2,6 @@
 
 # This is your domain, no protocol specified.
 domain: example.com
+
+# This is the correct response to your CAPTCHA. Case sensitive.
+captcha: example

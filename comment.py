@@ -12,7 +12,7 @@ import markdown
 import io
 
 form = cgi.FieldStorage()
-if form.getvalue("captcha") == "apple":
+if form.getvalue("captcha") == blogtools.config['captcha']:
 	
 	timestamp = int(time.time())
 	author = form.getvalue("username")
