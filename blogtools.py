@@ -90,7 +90,7 @@ def buildpost(key,templatefile):
 	#Tags
 	printabletags = str()
 	for i in postlist[key][1]:
-		printabletags += '<a href="/search.py?for=' + i + '&amp;in=tags">' + i + '</a>&nbsp;'
+		printabletags += '<a href="' + config['subdir'] + 'search.py?for=' + i + '&amp;in=tags">' + i + '</a>&nbsp;'
 	printabletags.rstrip(",")
 	
 	#Content
@@ -226,17 +226,18 @@ def notify(post):
 Hello,
 
 A new comment has been posted on {title}.
-You can find the post at http://{domain}/{link}.html
+You can find the post at http://{domain}{subdir}{link}.html
 
 If you don't want updates any more, go to:
-http://{domain}/unsubscribe.py?post={postid}&email={email}
+http://{domain}{subdir}unsubscribe.py?post={postid}&email={email}
 
 Thanks!'''.format(
 		title=postlist[post][0],
 		link=postlist[post][2],
 		postid=post,
 		email=address,
-		domain=config['domain'])) 
+		domain=config['domain'],
+		subdir=config['subdir'])) 
 		message['From'] = "noreply@" + config['domain']
 		message['Subject'] = "New comment on " + postlist[post][0]
 		message['To'] = address

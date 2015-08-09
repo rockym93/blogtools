@@ -3,6 +3,9 @@
 # This is your domain, no protocol specified.
 domain: example.com
 
+# This is the subdirectory of your site where your blog lives.
+subdir: /
+
 # This is the correct response to your CAPTCHA. Case sensitive.
 captcha: example
 
