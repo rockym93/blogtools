@@ -15,3 +15,6 @@ timezone: +8
 # These govern the length, in posts, of your front page and atom feed.
 frontlength: 5
 feedlength: 10
+
+# This is a list of email addresses that will always get comment notifications.
+comment-pings: [you@example.com, your_mum@webmail.com]
