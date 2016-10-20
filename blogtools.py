@@ -90,8 +90,8 @@ def buildpost(key,templatefile):
 	#Tags
 	printabletags = str()
 	for i in postlist[key][1]:
-		printabletags += '<a href="' + config['subdir'] + 'search.py?for=' + i + '&amp;in=tags">' + i + '</a>&nbsp;'
-	printabletags.rstrip(",")
+		printabletags += '<a href="' + config['subdir'] + 'search.py?for=' + i + '&amp;in=tags">' + i + '</a>,&nbsp;'
+	printabletags = printabletags.rstrip(",&nbsp;")
 	
 	#Content
 #	contentfile = open(postlist[key][2] + ".txt","r")
